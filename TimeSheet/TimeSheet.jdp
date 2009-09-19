@@ -1,0 +1,87 @@
+## RIM Java Development Environment
+# RIM Project file
+#
+# This file is generated and managed by BlackBerry developer tools.
+# It SHOULD NOT BE modified manually.
+#
+AddOn=0
+AlwaysBuild=0
+[AlxImports
+]
+AutoRestart=0
+[ClassProtection
+]
+[CustomBuildFiles
+]
+[CustomBuildRules
+]
+[DefFiles
+]
+[DependsOn
+]
+Description=Gestion et suivi du temps
+ExcludeFromBuildAll=0
+[Files
+img\journal_jde.png
+src\.svn\entries
+src\.svn\format
+src\.svn\lock
+src\com\.svn\entries
+src\com\.svn\format
+src\com\.svn\lock
+src\com\emmguyot\.svn\entries
+src\com\emmguyot\.svn\format
+src\com\emmguyot\.svn\lock
+src\com\emmguyot\bean\.svn\entries
+src\com\emmguyot\bean\.svn\format
+src\com\emmguyot\bean\.svn\lock
+src\com\emmguyot\bean\.svn\props\TimeSheetBean.java.svn-work
+src\com\emmguyot\bean\TimeSheetBean.java
+src\com\emmguyot\timesheet\.svn\entries
+src\com\emmguyot\timesheet\.svn\format
+src\com\emmguyot\timesheet\.svn\lock
+src\com\emmguyot\timesheet\.svn\props\TimeSheet.java.svn-work
+src\com\emmguyot\timesheet\.svn\props\TimeSheetScreen.java.svn-work
+src\com\emmguyot\timesheet\.svn\props\TimeSheetTaskListener.java.svn-work
+src\com\emmguyot\timesheet\TimeSheet.java
+src\com\emmguyot\timesheet\TimeSheetScreen.java
+src\com\emmguyot\timesheet\TimeSheetTaskListener.java
+src\com\emmguyot\utils\.svn\entries
+src\com\emmguyot\utils\.svn\format
+src\com\emmguyot\utils\.svn\lock
+src\com\emmguyot\utils\.svn\props\DateUtils.java.svn-work
+src\com\emmguyot\utils\.svn\props\EventUtils.java.svn-work
+src\com\emmguyot\utils\.svn\props\ListItem.java.svn-work
+src\com\emmguyot\utils\.svn\props\StringUtils.java.svn-work
+src\com\emmguyot\utils\.svn\props\TaskUtils.java.svn-work
+src\com\emmguyot\utils\DateUtils.java
+src\com\emmguyot\utils\EventUtils.java
+src\com\emmguyot\utils\ListItem.java
+src\com\emmguyot\utils\StringUtils.java
+src\com\emmguyot\utils\TaskUtils.java
+]
+HaveAlxImports=0
+HaveDefs=0
+HaveImports=0
+[Icons
+img\journal_jde.png
+]
+[ImplicitRules
+]
+[Imports
+]
+Listing=0
+Options=-quiet
+OutputFileName=TimeSheet
+[PackageProtection
+]
+RibbonPosition=0
+[RolloverIcons
+]
+RunOnStartup=1
+StartupTier=7
+SystemModule=0
+Title=Journal de Bord
+Type=0
+Vendor=Emmanuel Guyot
+Version=1.6.5
