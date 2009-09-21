@@ -19,7 +19,6 @@
 package com.emmguyot.timesheet;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Enumeration;
@@ -32,10 +31,10 @@ import javax.microedition.pim.Event;
 import javax.microedition.pim.EventList;
 import javax.microedition.pim.PIM;
 import javax.microedition.pim.PIMException;
+import javax.microedition.pim.PIMItem;
 import javax.microedition.pim.ToDo;
 import javax.microedition.pim.ToDoList;
 
-import net.rim.blackberry.api.invoke.CalendarArguments;
 import net.rim.blackberry.api.invoke.Invoke;
 import net.rim.blackberry.api.invoke.TaskArguments;
 import net.rim.blackberry.api.pdap.BlackBerryToDo;
@@ -131,7 +130,60 @@ final class TimeSheetScreen extends MainScreen
     protected void makeMenu(Menu menu, int instance) {
 		super.makeMenu(menu, instance);
 
-		MenuItem _gotoTasksItem = new MenuItem("Tâches",196940,0)
+		int numMenu = 196939;
+		MenuItem _supprLigneItem = new MenuItem("Supprimer ligne",numMenu++,0)
+        {
+            public void run()
+            {
+            	if (Dialog.ask(Dialog.D_OK_CANCEL, "Supprimer la ligne en cours?") == Dialog.D_OK) {
+	            	int pos = _champJournal.getCursorPosition();
+	    			// Simule le lastIndexOf
+	    			String debut = _champJournal.getText(0, pos + _champJournal.getLabelLength());
+	    			String fin = _champJournal.getText(pos + _champJournal.getLabelLength(), _champJournal.getTextLength() - pos);
+	            	int lastTrouve = StringUtils.lastIndexOf(debut, "\n");
+	            	if (lastTrouve >= 0) {
+	            		debut = debut.substring(_champJournal.getLabelLength(), lastTrouve);
+	            	}
+	            	else {
+	            		debut = "";
+	            	}
+	    			int trouve = fin.indexOf('\n');
+	            	if (trouve >= 0) {
+	            		fin = fin.substring(trouve); // Conserve le retour charriot
+	            	}
+	            	else {
+	            		fin = "";
+	            	}
+	            	_champJournal.setText(debut + fin);
+					doSave();
+            	}
+           }
+        };  
+		menu.add(_supprLigneItem);
+
+		MenuItem _regrLigneItem = new MenuItem("Regrouper ligne",numMenu++,0)
+        {
+            public void run()
+            {
+            	int pos = _champJournal.getCursorPosition();
+    			String debut = _champJournal.getText(_champJournal.getLabelLength(), pos + _champJournal.getLabelLength());
+    			String fin = _champJournal.getText(pos + _champJournal.getLabelLength(), _champJournal.getTextLength() - pos);
+    			int trouve = fin.indexOf('\n');
+    			int blanc = fin.indexOf(' ', trouve); 
+            	if (trouve >= 1) {
+            		fin = fin.substring(0, trouve - 1) + fin.substring(blanc + 1);
+            	}
+            	else if (trouve == 0) {
+            		fin = fin.substring(blanc + 1);
+            		
+            	}
+            	_champJournal.setText(debut + fin);
+				doSave();
+           }
+        };  
+		menu.add(_regrLigneItem);
+
+		MenuItem _gotoTasksItem = new MenuItem("Tâches",numMenu++,0)
         {
             public void run()
             {
@@ -170,7 +222,7 @@ final class TimeSheetScreen extends MainScreen
         };  
 		menu.add(_gotoTasksItem);
 
-		MenuItem _gotoAgendaItem = new MenuItem("Calendrier",196941,0)
+		MenuItem _gotoAgendaItem = new MenuItem("Calendrier",numMenu++,0)
         {
             public void run()
             {
@@ -184,7 +236,10 @@ final class TimeSheetScreen extends MainScreen
             			matching.addString(Event.UID, ToDo.ATTR_NONE, item.getId());
 	            		Enumeration enumEvent = eventList.items(matching);
 	            		if (enumEvent.hasMoreElements()) {
-	            			Invoke.invokeApplication(Invoke.APP_TYPE_CALENDAR, new CalendarArguments(CalendarArguments.ARG_VIEW_DEFAULT, (Event) enumEvent.nextElement()));
+	            			// l'accès direct à un RDV ne marche pas :-(
+	            			//Invoke.invokeApplication(Invoke.APP_TYPE_CALENDAR, new CalendarArguments(CalendarArguments.ARG_VIEW_DEFAULT, (Event) enumEvent.nextElement()));
+	            			// Ajoute au journal
+	            			TimeSheetBean.log(new String[] {((Event) enumEvent.nextElement()).getString(Event.SUMMARY, PIMItem.ATTR_NONE)});
 	            		}
             		} catch (PIMException  pe) {
                     	pe.printStackTrace();
@@ -199,37 +254,8 @@ final class TimeSheetScreen extends MainScreen
 		menu.add(MenuItem.separator(196942));
         
 
-		MenuItem _supprLigneItem = new MenuItem("Supprimer ligne",196939,0)
-        {
-            public void run()
-            {
-            	if (Dialog.ask(Dialog.D_OK_CANCEL, "Supprimer la ligne en cours?") == Dialog.D_OK) {
-	            	int pos = _champJournal.getCursorPosition();
-	    			// Simule le lastIndexOf
-	    			String debut = _champJournal.getText(0, pos + _champJournal.getLabelLength());
-	    			String fin = _champJournal.getText(pos + _champJournal.getLabelLength(), _champJournal.getTextLength() - pos);
-	            	int lastTrouve = StringUtils.lastIndexOf(debut, "\n");
-	            	if (lastTrouve >= 0) {
-	            		debut = debut.substring(_champJournal.getLabelLength(), lastTrouve);
-	            	}
-	            	else {
-	            		debut = "";
-	            	}
-	    			int trouve = fin.indexOf('\n');
-	            	if (trouve >= 0) {
-	            		fin = fin.substring(trouve); // Conserve le retour charriot
-	            	}
-	            	else {
-	            		fin = "";
-	            	}
-	            	_champJournal.setText(debut + fin);
-					doSave();
-            	}
-           }
-        };  
-		menu.add(_supprLigneItem);
 
-        MenuItem _moveTasksItem = new MenuItem("Déplacer tâches",196942,0)
+        MenuItem _moveTasksItem = new MenuItem("Déplacer tâches",numMenu++,0)
         {
             public void run()
             {
@@ -270,7 +296,7 @@ final class TimeSheetScreen extends MainScreen
         };  
 		menu.add(_moveTasksItem);
 
-        MenuItem _calcule = new MenuItem("Calcule temps",196943,0)
+        MenuItem _calcule = new MenuItem("Calcule temps",numMenu++,0)
         {
             public void run()
             {
