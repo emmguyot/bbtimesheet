@@ -19,6 +19,7 @@
 package com.emmguyot.timesheet;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Enumeration;
@@ -166,12 +167,12 @@ final class TimeSheetScreen extends MainScreen
             public void run()
             {
             	int pos = _champJournal.getCursorPosition();
-    			String debut = _champJournal.getText(_champJournal.getLabelLength(), pos + _champJournal.getLabelLength());
+    			String debut = _champJournal.getText(_champJournal.getLabelLength(), pos);
     			String fin = _champJournal.getText(pos + _champJournal.getLabelLength(), _champJournal.getTextLength() - pos);
     			int trouve = fin.indexOf('\n');
     			int blanc = fin.indexOf(' ', trouve); 
             	if (trouve >= 1) {
-            		fin = fin.substring(0, trouve - 1) + fin.substring(blanc + 1);
+            		fin = fin.substring(0, trouve - 1) + fin.substring(blanc);
             	}
             	else if (trouve == 0) {
             		fin = fin.substring(blanc + 1);
@@ -251,9 +252,7 @@ final class TimeSheetScreen extends MainScreen
             }
         };  
 		menu.add(_gotoAgendaItem);
-		menu.add(MenuItem.separator(196942));
-        
-
+		menu.add(MenuItem.separator(numMenu++));
 
         MenuItem _moveTasksItem = new MenuItem("Déplacer tâches",numMenu++,0)
         {
