@@ -49,7 +49,7 @@ public class TaskUtils {
 				if (tache.getInt(TODO_FIELD_STATUS, PIMItem.ATTR_NONE) != BlackBerryToDo.STATUS_COMPLETED) {
 					lstTaches.addElement(new ListItem(tache.getString(ToDo.UID, PIMItem.ATTR_NONE), 
 							SimpleDateFormat.getInstance(SimpleDateFormat.TIME_SHORT).format(new Date(tache.getDate(ToDo.DUE, 0) 
-																				- 2 * 3600 * 1000)) 
+																				- 1 * 3600 * 1000)) 
 							+ " " + tache.getString(ToDo.SUMMARY, PIMItem.ATTR_NONE)));
 				}
 			}
