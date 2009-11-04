@@ -227,9 +227,10 @@ final class TimeSheetScreen extends MainScreen
         {
             public void run()
             {
-            	if (_champRDV.isFocus() && (_champRDV.getSelectedIndex() > 0)) {
+            	if (_champRDV.isFocus() && (_champRDV.getSelectedIndex() >= 0)) {
             		// Ouvre directement la tâche
             		ListItem item = (ListItem) _champRDV.get(_champRDV.getSelectedIndex());
+            		
             		EventList eventList = null;
             		try {
             			eventList = (EventList)PIM.getInstance().openPIMList(PIM.EVENT_LIST, PIM.READ_WRITE);
