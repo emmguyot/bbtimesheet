@@ -28,12 +28,16 @@ import javax.microedition.pim.PIMItem;
 import javax.microedition.pim.ToDo;
 import javax.microedition.pim.ToDoList;
 
+import com.emmguyot.bean.TimeSheetBean;
+
 import net.rim.blackberry.api.pdap.BlackBerryToDo;
 import net.rim.device.api.i18n.SimpleDateFormat;
 
 public class TaskUtils {
 
 	public static final int TODO_FIELD_STATUS = ToDo.EXTENDED_FIELD_MIN_VALUE + 9;
+	
+	public static final int OFFSET = 1;
 
 	/**
 	 * @param lstTaches
@@ -49,7 +53,7 @@ public class TaskUtils {
 				if (tache.getInt(TODO_FIELD_STATUS, PIMItem.ATTR_NONE) != BlackBerryToDo.STATUS_COMPLETED) {
 					lstTaches.addElement(new ListItem(tache.getString(ToDo.UID, PIMItem.ATTR_NONE), 
 							SimpleDateFormat.getInstance(SimpleDateFormat.TIME_SHORT).format(new Date(tache.getDate(ToDo.DUE, 0) 
-																				- 1 * 3600 * 1000)) 
+																				- TaskUtils.OFFSET * 3600 * 1000)) 
 							+ " " + tache.getString(ToDo.SUMMARY, PIMItem.ATTR_NONE)));
 				}
 			}
@@ -61,6 +65,13 @@ public class TaskUtils {
 		ListItem[] tabTaches = new ListItem[lstTaches.size()];
 		lstTaches.copyInto(tabTaches);
 		return tabTaches;
+	}
+
+	public static void log(ToDo tache) {
+        TimeSheetBean.log(new String[] {
+        		SimpleDateFormat.getInstance(SimpleDateFormat.TIME_SHORT).format(new Date(tache.getDate(ToDo.DUE, 0) 
+						- TaskUtils.OFFSET * 3600 * 1000)) 
+				+ " " + tache.getString(ToDo.SUMMARY, PIMItem.ATTR_NONE)});
 	}
 
 }

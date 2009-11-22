@@ -33,6 +33,7 @@ import net.rim.device.api.system.ApplicationManager;
 import net.rim.device.api.ui.UiApplication;
 
 import com.emmguyot.bean.TimeSheetBean;
+import com.emmguyot.utils.TaskUtils;
 
 /**
  * 
@@ -103,9 +104,7 @@ class TimeSheet extends UiApplication {
 			}
 			else if (context instanceof ToDo) {
 				ToDo tache = (ToDo) context;
-				TimeSheetBean.log(new String[] {SimpleDateFormat.getInstance(SimpleDateFormat.TIME_SHORT).format(new Date(tache.getDate(ToDo.DUE, 0) 
-						- 2 * 3600 * 1000)) 
-						+ " " + tache.getString(ToDo.SUMMARY, PIMItem.ATTR_NONE)});
+				TaskUtils.log(tache);
 			}
 			else {
 				

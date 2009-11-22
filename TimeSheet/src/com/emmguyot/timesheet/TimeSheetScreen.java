@@ -259,6 +259,7 @@ final class TimeSheetScreen extends MainScreen
         {
             public void run()
             {
+            	int nbTotal = 0;
                 try {
         			ToDoList todoList = (ToDoList)PIM.getInstance().openPIMList(PIM.TODO_LIST, PIM.READ_WRITE);
         			Calendar cal = Calendar.getInstance();
@@ -284,10 +285,12 @@ final class TimeSheetScreen extends MainScreen
 	        					tache.setInt(TaskUtils.TODO_FIELD_STATUS, 0, ToDo.ATTR_NONE, BlackBerryToDo.STATUS_NOT_STARTED);
 	        					tache.commit();
 		        				nb++;
+		        				nbTotal++;
 	        				}
 	        			}
         			}
         			while (nb > 0);
+                	Dialog.inform(nbTotal + " tâches déplacées");
                 }
                 catch (PIMException pe) {
                 	pe.printStackTrace();

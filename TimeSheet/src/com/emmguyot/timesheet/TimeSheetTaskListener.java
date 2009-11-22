@@ -44,10 +44,7 @@ class TimeSheetTaskListener implements PIMListListener {
         
         if ((etat == BlackBerryToDo.STATUS_COMPLETED) || (etat == BlackBerryToDo.STATUS_IN_PROGRESS)) { 
             // Ajoute au log
-            TimeSheetBean.log(new String[] {
-            		SimpleDateFormat.getInstance(SimpleDateFormat.TIME_SHORT).format(new Date(tache.getDate(ToDo.DUE, 0) 
-							- 2 * 3600 * 1000)) 
-					+ " " + tache.getString(ToDo.SUMMARY, PIMItem.ATTR_NONE)});
+        	TaskUtils.log(tache);
         }
     }
     
@@ -66,11 +63,8 @@ class TimeSheetTaskListener implements PIMListListener {
             || ((etat == BlackBerryToDo.STATUS_IN_PROGRESS)
                     && (etatOrig != BlackBerryToDo.STATUS_IN_PROGRESS)))  {
             // Ajoute au log
-        	TimeSheetBean.log(new String[] {
-        			SimpleDateFormat.getInstance(SimpleDateFormat.TIME_SHORT).format(new Date(tache.getDate(ToDo.DUE, 0) 
-							- 2 * 3600 * 1000)) 
-					+ " " + tache.getString(ToDo.SUMMARY, PIMItem.ATTR_NONE),
-					""});
+        	TaskUtils.log(tache);
+        	TimeSheetBean.log(new String[] {""});
         }
     }
 } 
