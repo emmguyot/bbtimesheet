@@ -227,7 +227,7 @@ final class TimeSheetScreen extends MainScreen
         {
             public void run()
             {
-            	if (_champRDV.isFocus() && (_champRDV.getSelectedIndex() >= 0)) {
+            	if (!_champTaches.isFocus() && !_champJournal.isFocus() && _champRDV.getSelectedIndex() >= 0) {
             		// Ouvre directement la tâche
             		ListItem item = (ListItem) _champRDV.get(_champRDV.getSelectedIndex());
             		
@@ -241,7 +241,8 @@ final class TimeSheetScreen extends MainScreen
 	            			// l'accès direct à un RDV ne marche pas :-(
 	            			//Invoke.invokeApplication(Invoke.APP_TYPE_CALENDAR, new CalendarArguments(CalendarArguments.ARG_VIEW_DEFAULT, (Event) enumEvent.nextElement()));
 	            			// Ajoute au journal
-	            			TimeSheetBean.log(new String[] {((Event) enumEvent.nextElement()).getString(Event.SUMMARY, PIMItem.ATTR_NONE)});
+	            			doSave();
+	        				majText(TimeSheetBean.log(new String[] {((Event) enumEvent.nextElement()).getString(Event.SUMMARY, PIMItem.ATTR_NONE)}));
 	            		}
             		} catch (PIMException  pe) {
                     	pe.printStackTrace();
@@ -262,6 +263,7 @@ final class TimeSheetScreen extends MainScreen
             	int nbTotal = 0;
                 try {
         			ToDoList todoList = (ToDoList)PIM.getInstance().openPIMList(PIM.TODO_LIST, PIM.READ_WRITE);
+        			Calendar now = Calendar.getInstance();
         			Calendar cal = Calendar.getInstance();
         			cal.setTimeZone(TimeZone.getDefault());
         			cal.set(Calendar.HOUR_OF_DAY, 0);
